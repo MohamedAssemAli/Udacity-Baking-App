@@ -1,10 +1,15 @@
 package udacity.assem.com.udaceity_baking_app.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +24,12 @@ import butterknife.ButterKnife;
 import tests.assem.com.udaceity_baking_app.R;
 import udacity.assem.com.udaceity_baking_app.Activities.DetailsActivity;
 import udacity.assem.com.udaceity_baking_app.App.AppConfig;
+import udacity.assem.com.udaceity_baking_app.Fragments.StepsFragment;
 import udacity.assem.com.udaceity_baking_app.Models.RecipeModel;
 import udacity.assem.com.udaceity_baking_app.Models.StepModel;
 import udacity.assem.com.udaceity_baking_app.Utils.Imageutility;
+
+import static udacity.assem.com.udaceity_baking_app.Activities.DetailsActivity.fragment;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.RecipeHolder> {
 
@@ -49,7 +57,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.RecipeHolder> 
         holder.steps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                pushFragment(stepModel);
             }
         });
     }
@@ -73,11 +81,15 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.RecipeHolder> 
         }
     }
 
-    private void goToDetailsActivity(StepModel stepModel) {
-//        Intent intent = new Intent(context, DetailsActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(AppConfig.INTENT_BUNDLE_KEY, stepModel);
-//        intent.putExtras(bundle);
-//        context.startActivity(intent);
+    private void pushFragment(StepModel stepModel) {
+        FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConfig.INTENT_BUNDLE_KEY, stepModel);
+        fragment = new StepsFragment();
+        fragment.setArguments(bundle);
+        ft.replace(R.id.start_content, fragment);
+        ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
+        ft.commit();
     }
 }

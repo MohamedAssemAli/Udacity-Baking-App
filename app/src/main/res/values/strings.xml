@@ -7,7 +7,8 @@
     <!-- Error messages-->
     <string name="detail_error_message">Recipe data not available</string>
     <string name="step">Step</string>
-    <string name="tab_to_see_steps">Tab to see steps</string>
+    <string name="tab_to_see_step">Tab to see step</string>
     <string name="ingredients">Ingredients</string>
     <string name="recipe">Recipe</string>
+    <string name="steps">Steps</string>
 </resources>

@@ -27,9 +27,11 @@ import retrofit2.Response;
 import tests.assem.com.udaceity_baking_app.R;
 import udacity.assem.com.udaceity_baking_app.Adapters.IngredientAdapter;
 import udacity.assem.com.udaceity_baking_app.Adapters.RecipeAdapter;
+import udacity.assem.com.udaceity_baking_app.Adapters.StepAdapter;
 import udacity.assem.com.udaceity_baking_app.App.AppConfig;
 import udacity.assem.com.udaceity_baking_app.Models.IngredientModel;
 import udacity.assem.com.udaceity_baking_app.Models.RecipeModel;
+import udacity.assem.com.udaceity_baking_app.Models.StepModel;
 import udacity.assem.com.udaceity_baking_app.Networking.ApiClient;
 import udacity.assem.com.udaceity_baking_app.Networking.ApiInterface;
 import udacity.assem.com.udaceity_baking_app.Utils.BuildViews;
@@ -40,7 +42,9 @@ public class IngredientsFragment extends Fragment {
     // Vars
     private final String TAG = IngredientsFragment.class.getSimpleName();
     ArrayList<IngredientModel> ingredientModelArrayList;
+    ArrayList<StepModel> stepModelArrayList;
     IngredientAdapter ingredientAdapter;
+    StepAdapter stepAdapter;
     RecipeModel recipeModel;
     // Views
     @BindView(R.id.toolbar)
@@ -55,6 +59,8 @@ public class IngredientsFragment extends Fragment {
     TextView recipeServing;
     @BindView(R.id.ingredient_fragment_ingredient_recycler)
     RecyclerView ingredientRecyclerView;
+    @BindView(R.id.ingredient_fragment_steps_recycler)
+    RecyclerView stepsRecyclerView;
 
     public IngredientsFragment() {
         // Required empty public constructor
@@ -77,10 +83,16 @@ public class IngredientsFragment extends Fragment {
     }
 
     private void init() {
+        // Pass ingredients
         ingredientModelArrayList = (ArrayList<IngredientModel>) recipeModel.getIngredients();
         ingredientAdapter = new IngredientAdapter(requireContext(), ingredientModelArrayList);
         ingredientRecyclerView.setAdapter(ingredientAdapter);
         ingredientRecyclerView.setNestedScrollingEnabled(false);
+        // Pass steps
+        stepModelArrayList = (ArrayList<StepModel>) recipeModel.getSteps();
+        stepAdapter = new StepAdapter(requireContext(), stepModelArrayList);
+        stepsRecyclerView.setAdapter(stepAdapter);
+        stepsRecyclerView.setNestedScrollingEnabled(false);
     }
 
     @SuppressLint("SetTextI18n")
@@ -89,14 +101,9 @@ public class IngredientsFragment extends Fragment {
         Imageutility.fitImage(requireContext(), recipeImg, recipeModel.getImage(), R.drawable.placeholder, R.drawable.placeholder);
         recipeName.setText(recipeModel.getName());
         recipeServing.setText("Serving : " + String.valueOf(recipeModel.getServings()) + " persons");
-        new BuildViews().setupLinearVerticalRecView(requireContext(), ingredientRecyclerView);
+        new BuildViews().setupGridRecView(requireContext(), ingredientRecyclerView, 2);
+        new BuildViews().setupLinearVerticalRecView(requireContext(), stepsRecyclerView);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
 
     private void closeOnError() {
         Objects.requireNonNull(getActivity()).finish();

@@ -17,25 +17,13 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_padding_size_small"
-            android:layout_marginEnd="@dimen/margin_padding_size_medium"
-            android:layout_marginStart="@dimen/margin_padding_size_medium"
-            android:layout_marginTop="@dimen/margin_padding_size_small"
-            android:text="@string/recipe"
-            android:textColor="@color/description"
-            android:textSize="@dimen/text_size_small" />
-
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_padding_size_small"
+            android:layout_margin="@dimen/margin_padding_size_medium"
             android:padding="@dimen/margin_padding_size_small"
             app:cardCornerRadius="@dimen/margin_padding_size_small">
 
-            <!--Header part-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,6 +91,21 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/margin_padding_size_small" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_padding_size_small"
+            android:layout_marginEnd="@dimen/margin_padding_size_medium"
+            android:layout_marginStart="@dimen/margin_padding_size_medium"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:text="@string/steps"
+            android:textColor="@color/description"
+            android:textSize="@dimen/text_size_small" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ingredient_fragment_steps_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_padding_size_small" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

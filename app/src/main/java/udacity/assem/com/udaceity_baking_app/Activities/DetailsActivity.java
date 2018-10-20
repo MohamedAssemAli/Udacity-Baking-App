@@ -24,7 +24,7 @@ public class DetailsActivity extends AppCompatActivity {
         Intent bundleIntent = getIntent();
         RecipeModel recipeModel = (RecipeModel) bundleIntent.getSerializableExtra(AppConfig.INTENT_BUNDLE_KEY);
         if (recipeModel != null) {
-            manageFragments(recipeModel);
+            manageFragments(recipeModel, new IngredientsFragment());
         } else {
             closeOnError();
         }
@@ -41,17 +41,13 @@ public class DetailsActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void manageFragments(RecipeModel recipeModel) {
-        // get fragment manager
+    public void manageFragments(RecipeModel recipeModel, Fragment tempFragment) {
         FragmentManager fm = getSupportFragmentManager();
-        // add
         FragmentTransaction ft = fm.beginTransaction();
         if (fragment == null)
-            fragment = new IngredientsFragment();
+            fragment = tempFragment;
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConfig.INTENT_BUNDLE_KEY, recipeModel);
-        IngredientsFragment ingredientsFragment = new IngredientsFragment();
-        ingredientsFragment.setArguments(bundle);
         fragment.setArguments(bundle);
         ft.replace(R.id.start_content, fragment);
         ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);

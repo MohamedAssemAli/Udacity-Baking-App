@@ -15,7 +15,7 @@ import udacity.assem.com.udaceity_baking_app.Models.RecipeModel;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    public static Fragment fragment;
+//    public static Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +44,12 @@ public class DetailsActivity extends AppCompatActivity {
     public void manageFragments(RecipeModel recipeModel, Fragment tempFragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        if (fragment == null)
-            fragment = tempFragment;
+//        if (fragment == null)
+//            fragment = tempFragment;
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConfig.INTENT_BUNDLE_KEY, recipeModel);
-        fragment.setArguments(bundle);
-        ft.replace(R.id.start_content, fragment);
+        tempFragment.setArguments(bundle);
+        ft.replace(R.id.start_content, tempFragment);
         ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
         ft.commit();
     }

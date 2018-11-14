@@ -8,5 +8,5 @@
     <color name="divider">#dcdcdc</color>
     <color name="low_white">#66ffffff</color>
     <color name="white">#FFF</color>
-
+    <color name="gradient_start">#c31432</color>
 </resources>

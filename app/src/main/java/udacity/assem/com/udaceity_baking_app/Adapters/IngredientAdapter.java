@@ -2,16 +2,11 @@ package udacity.assem.com.udaceity_baking_app.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,16 +14,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tests.assem.com.udaceity_baking_app.R;
-import udacity.assem.com.udaceity_baking_app.Activities.DetailsActivity;
-import udacity.assem.com.udaceity_baking_app.Activities.MainActivity;
-import udacity.assem.com.udaceity_baking_app.App.AppConfig;
-import udacity.assem.com.udaceity_baking_app.Fragments.IngredientsFragment;
-import udacity.assem.com.udaceity_baking_app.Fragments.StepsFragment;
 import udacity.assem.com.udaceity_baking_app.Models.IngredientModel;
-import udacity.assem.com.udaceity_baking_app.Models.RecipeModel;
-import udacity.assem.com.udaceity_baking_app.Utils.Imageutility;
-
-import static udacity.assem.com.udaceity_baking_app.Activities.DetailsActivity.fragment;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientHolder> {
 

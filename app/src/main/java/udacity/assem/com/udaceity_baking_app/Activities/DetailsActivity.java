@@ -24,7 +24,8 @@ public class DetailsActivity extends AppCompatActivity {
         Intent bundleIntent = getIntent();
         RecipeModel recipeModel = (RecipeModel) bundleIntent.getSerializableExtra(AppConfig.INTENT_BUNDLE_KEY);
         if (recipeModel != null) {
-            manageFragments(recipeModel, new IngredientsFragment());
+            if (savedInstanceState == null)
+                manageFragments(recipeModel, new IngredientsFragment());
         } else {
             closeOnError();
         }

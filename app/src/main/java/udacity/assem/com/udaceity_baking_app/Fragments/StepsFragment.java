@@ -129,27 +129,6 @@ public class StepsFragment extends Fragment {
         return view;
     }
 
-    @SuppressLint("InlinedApi")
-    private void hideSystemUi() {
-        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-    }
-
-    private void initializePlayer(StepModel stepModel) {
-        player = ExoPlayerFactory.newSimpleInstance(
-                new DefaultRenderersFactory(getContext()),
-                new DefaultTrackSelector(), new DefaultLoadControl());
-        playerView.setPlayer(player);
-        player.seekTo(playbackPosition);
-        player.setPlayWhenReady(playWhenReady);
-        player.prepare(buildMediaSource(stepModel.getVideoURL()), false, false);
-    }
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -205,8 +184,8 @@ public class StepsFragment extends Fragment {
     private MediaSource buildMediaSource(String url) {
         return new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory("udacity_baking-app"))
-//                .createMediaSource(Uri.parse(url));
-                .createMediaSource(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
+                .createMediaSource(Uri.parse(url));
+//                .createMediaSource(Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
     }
 
     private void toggleIndicators(int index) {
@@ -219,60 +198,6 @@ public class StepsFragment extends Fragment {
             nextBtn.setVisibility(View.VISIBLE);
         }
     }
-
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Ocultar la barra de estado
-//            getActivity().getWindow()
-//                    .getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-            Toast.makeText(getContext(), "ORIENTATION_LANDSCAPE", Toast.LENGTH_SHORT).show();
-
-            // Ocultar la barra de accion
-//            if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
-//                ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-
-//            binding.expPlayer.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        } else {
-            Toast.makeText(getContext(), "ORIENTATION_PORTRAIT", Toast.LENGTH_SHORT).show();
-            // Mostrar la barra de estado
-//            getActivity().getWindow()
-//                    .getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-
-            // Mostrar la barra de accion
-//            if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
-//                ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-
-//            binding.expPlayer.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics())));
-
-        }
-    }
-
-//
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        // Checks the orientation of the screen
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-////            getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
-////            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-////            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) playerView.getLayoutParams();
-////            params.width = params.MATCH_PARENT;
-////            params.height = params.MATCH_PARENT;
-////            playerView.setLayoutParams(params);
-//            Toast.makeText(getContext(), "ORIENTATION_LANDSCAPE", Toast.LENGTH_SHORT).show();
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-////            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) playerView.getLayoutParams();
-////            params.width = params.MATCH_PARENT;
-////            params.height = 280;
-////            playerView.setLayoutParams(params);
-//            Toast.makeText(getContext(), "ORIENTATION_PORTRAIT", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -300,5 +225,25 @@ public class StepsFragment extends Fragment {
             toolbar.setVisibility(View.GONE);
             buttonsLayout.setVisibility(View.GONE);
         }
+    }
+
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    private void initializePlayer(StepModel stepModel) {
+        player = ExoPlayerFactory.newSimpleInstance(
+                new DefaultRenderersFactory(getContext()),
+                new DefaultTrackSelector(), new DefaultLoadControl());
+        playerView.setPlayer(player);
+        player.seekTo(playbackPosition);
+        player.setPlayWhenReady(playWhenReady);
+        player.prepare(buildMediaSource(stepModel.getVideoURL()), false, false);
     }
 }

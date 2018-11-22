@@ -73,7 +73,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.RecipeHolder> 
         }
     }
 
-
     private void pushFragment(ArrayList<StepModel> stepModelArrayList, int index) {
         FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

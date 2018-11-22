@@ -5,16 +5,11 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.util.TypedValue;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +51,8 @@ public class StepsFragment extends Fragment {
     private long playbackPosition = 0, pos;
     private boolean playWhenReady = true;
     // Views
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.steps_fragment_video_player)
@@ -70,6 +67,8 @@ public class StepsFragment extends Fragment {
     Button previousBtn;
     @BindView(R.id.steps_fragment_next_btn)
     Button nextBtn;
+    @BindView(R.id.steps_fragment_buttons_layout)
+    RelativeLayout buttonsLayout;
 
     // OnClicks
     @OnClick(R.id.steps_fragment_next_btn)
@@ -101,27 +100,6 @@ public class StepsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        int currentOrientation = getResources().getConfiguration().orientation;
-//        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
-//            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) playerView.getLayoutParams();
-//            params.width = params.MATCH_PARENT;
-//            params.height = params.MATCH_PARENT;
-//            playerView.setLayoutParams(params);
-//            hideSystemUi();
-//        } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
-//            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) playerView.getLayoutParams();
-//            params.width = params.MATCH_PARENT;
-//            params.height = 280;
-//            playerView.setLayoutParams(params);
-//            Toast.makeText(getContext(), "ORIENTATION_PORTRAIT", Toast.LENGTH_SHORT).show();
-//        }
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(fragment_steps, container, false);
@@ -147,6 +125,7 @@ public class StepsFragment extends Fragment {
             stepModel = stepModelArrayList.get(index);
             populateUi(stepModel);
         }
+        checkOrientation();
         return view;
     }
 
@@ -294,17 +273,6 @@ public class StepsFragment extends Fragment {
 //        }
 //    }
 
-    /**
-     * Method to check for current device orientation
-     */
-    public void checkFullScreen() {
-        Configuration newConfig = new Configuration();
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            isFullScreen = true;
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            isFullScreen = false;
-        }
-    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -319,5 +287,18 @@ public class StepsFragment extends Fragment {
     private void closeOnError() {
         Objects.requireNonNull(getActivity()).finish();
         Toast.makeText(requireContext(), R.string.detail_error_message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void checkOrientation() {
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) playerView.getLayoutParams();
+            params.width = params.MATCH_PARENT;
+            params.height = params.MATCH_PARENT;
+            playerView.setLayoutParams(params);
+            hideSystemUi();
+            toolbar.setVisibility(View.GONE);
+            buttonsLayout.setVisibility(View.GONE);
+        }
     }
 }

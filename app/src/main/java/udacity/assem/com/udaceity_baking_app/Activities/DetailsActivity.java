@@ -25,7 +25,7 @@ public class DetailsActivity extends AppCompatActivity {
         RecipeModel recipeModel = (RecipeModel) bundleIntent.getSerializableExtra(AppConfig.INTENT_BUNDLE_KEY);
         if (recipeModel != null) {
             if (savedInstanceState == null)
-                manageFragments(recipeModel, new IngredientsFragment());
+                manageFragments(recipeModel);
         } else {
             closeOnError();
         }
@@ -42,15 +42,14 @@ public class DetailsActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    public void manageFragments(RecipeModel recipeModel, Fragment tempFragment) {
+    public void manageFragments(RecipeModel recipeModel) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-//        if (fragment == null)
-//            fragment = tempFragment;
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConfig.INTENT_BUNDLE_KEY, recipeModel);
-        tempFragment.setArguments(bundle);
-        ft.replace(R.id.start_content, tempFragment);
+        IngredientsFragment ingredientsFragment = new IngredientsFragment();
+        ingredientsFragment.setArguments(bundle);
+        ft.replace(R.id.start_content, ingredientsFragment);
         ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
         ft.commit();
     }

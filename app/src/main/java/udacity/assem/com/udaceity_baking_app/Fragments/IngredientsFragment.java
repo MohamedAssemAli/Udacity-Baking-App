@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +37,7 @@ import udacity.assem.com.udaceity_baking_app.Networking.ApiClient;
 import udacity.assem.com.udaceity_baking_app.Networking.ApiInterface;
 import udacity.assem.com.udaceity_baking_app.Utils.BuildViews;
 import udacity.assem.com.udaceity_baking_app.Utils.Imageutility;
+import udacity.assem.com.udaceity_baking_app.Widget.WidgetHelper;
 
 public class IngredientsFragment extends Fragment {
 
@@ -61,6 +63,13 @@ public class IngredientsFragment extends Fragment {
     RecyclerView ingredientRecyclerView;
     @BindView(R.id.ingredient_fragment_steps_recycler)
     RecyclerView stepsRecyclerView;
+
+    // OnClicks
+    @OnClick(R.id.ingredient_fragment_add_to_widget)
+    void addToWidget() {
+        new WidgetHelper(requireContext()).setWidgetRecipe(recipeModel);
+        Toast.makeText(requireContext(), getString(R.string.added_to_widget), Toast.LENGTH_SHORT).show();
+    }
 
     public IngredientsFragment() {
         // Required empty public constructor

@@ -13,4 +13,6 @@
     <string name="steps">Steps</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="add_to_widget">Add to widget</string>
+    <string name="added_to_widget">Recipe Added to widget</string>
 </resources>

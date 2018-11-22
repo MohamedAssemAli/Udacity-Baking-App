@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/ingredient_widget"
+    android:minHeight="120dp"
+    android:minResizeHeight="100dp"
+    android:minResizeWidth="100dp"
+    android:minWidth="120dp"
+    android:previewImage="@drawable/video_placeholder"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="3600000"
+    android:widgetCategory="home_screen">
+
+</appwidget-provider>

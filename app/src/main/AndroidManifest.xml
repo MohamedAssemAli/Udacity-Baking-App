@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="udacity.assem.com.udaceity_baking_app.Activities.MainActivity">
+        <activity android:name="udacity.assem.com.udaceity_baking_app.Activities.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,6 +20,15 @@
             </intent-filter>
         </activity>
         <activity android:name="udacity.assem.com.udaceity_baking_app.Activities.DetailsActivity"></activity>
+
+        <receiver android:name="udacity.assem.com.udaceity_baking_app.Widget.IngredientWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/ingredient_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@ import udacity.assem.com.udaceity_baking_app.Models.RecipeModel;
 
 public class DetailsActivity extends AppCompatActivity {
 
-//    public static Fragment fragment;
+    private boolean isTwoPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,8 @@ public class DetailsActivity extends AppCompatActivity {
         Intent bundleIntent = getIntent();
         RecipeModel recipeModel = (RecipeModel) bundleIntent.getSerializableExtra(AppConfig.INTENT_BUNDLE_KEY);
         if (recipeModel != null) {
+            if (findViewById(R.id.details_activity_detail_fragment) != null)
+                isTwoPane = true;
             if (savedInstanceState == null)
                 manageFragments(recipeModel);
         } else {
@@ -47,9 +49,13 @@ public class DetailsActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConfig.INTENT_BUNDLE_KEY, recipeModel);
+        bundle.putSerializable(AppConfig.INTENT_TWO_PANE_FLAG, isTwoPane);
         IngredientsFragment ingredientsFragment = new IngredientsFragment();
         ingredientsFragment.setArguments(bundle);
-        ft.replace(R.id.start_content, ingredientsFragment);
+        if (isTwoPane)
+            ft.replace(R.id.details_activity_master_fragment, ingredientsFragment);
+        else
+            ft.replace(R.id.start_content, ingredientsFragment);
         ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
         ft.commit();
     }

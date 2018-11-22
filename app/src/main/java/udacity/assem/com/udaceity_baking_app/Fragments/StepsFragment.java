@@ -49,7 +49,7 @@ public class StepsFragment extends Fragment {
     private ExoPlayer player;
     private int index, currentWindow = 0;
     private long playbackPosition = 0, pos;
-    private boolean playWhenReady = true;
+    private boolean isTwoPane, playWhenReady = true;
     // Views
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -107,6 +107,7 @@ public class StepsFragment extends Fragment {
         stepModelArrayList = new ArrayList<>();
         if (getArguments() != null) {
             stepModelArrayList = (ArrayList<StepModel>) getArguments().getSerializable(AppConfig.INTENT_BUNDLE_KEY);
+            isTwoPane = getArguments().getBoolean(AppConfig.INTENT_TWO_PANE_FLAG);
             index = getArguments().getInt(AppConfig.INTENT_STEP_INDEX);
             toggleIndicators(index);
             stepModel = stepModelArrayList.get(index);
@@ -216,7 +217,7 @@ public class StepsFragment extends Fragment {
 
     private void checkOrientation() {
         int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && !isTwoPane) {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) playerView.getLayoutParams();
             params.width = params.MATCH_PARENT;
             params.height = params.MATCH_PARENT;

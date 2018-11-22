@@ -4,37 +4,28 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import tests.assem.com.udaceity_baking_app.R;
 import udacity.assem.com.udaceity_baking_app.Adapters.IngredientAdapter;
-import udacity.assem.com.udaceity_baking_app.Adapters.RecipeAdapter;
 import udacity.assem.com.udaceity_baking_app.Adapters.StepAdapter;
 import udacity.assem.com.udaceity_baking_app.App.AppConfig;
 import udacity.assem.com.udaceity_baking_app.Models.IngredientModel;
 import udacity.assem.com.udaceity_baking_app.Models.RecipeModel;
 import udacity.assem.com.udaceity_baking_app.Models.StepModel;
-import udacity.assem.com.udaceity_baking_app.Networking.ApiClient;
-import udacity.assem.com.udaceity_baking_app.Networking.ApiInterface;
 import udacity.assem.com.udaceity_baking_app.Utils.BuildViews;
 import udacity.assem.com.udaceity_baking_app.Utils.Imageutility;
 import udacity.assem.com.udaceity_baking_app.Widget.WidgetHelper;
@@ -43,11 +34,8 @@ public class IngredientsFragment extends Fragment {
 
     // Vars
     private final String TAG = IngredientsFragment.class.getSimpleName();
-    ArrayList<IngredientModel> ingredientModelArrayList;
-    ArrayList<StepModel> stepModelArrayList;
-    IngredientAdapter ingredientAdapter;
-    StepAdapter stepAdapter;
-    RecipeModel recipeModel;
+    private boolean isTwoPane = false;
+    private RecipeModel recipeModel;
     // Views
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -83,6 +71,7 @@ public class IngredientsFragment extends Fragment {
         ButterKnife.bind(this, view);
         if (getArguments() != null) {
             recipeModel = (RecipeModel) getArguments().getSerializable(AppConfig.INTENT_BUNDLE_KEY);
+            isTwoPane = getArguments().getBoolean(AppConfig.INTENT_TWO_PANE_FLAG);
             init();
             populateUi();
         } else {
@@ -93,13 +82,13 @@ public class IngredientsFragment extends Fragment {
 
     private void init() {
         // Pass ingredients
-        ingredientModelArrayList = (ArrayList<IngredientModel>) recipeModel.getIngredients();
-        ingredientAdapter = new IngredientAdapter(requireContext(), ingredientModelArrayList);
+        ArrayList<IngredientModel> ingredientModelArrayList = (ArrayList<IngredientModel>) recipeModel.getIngredients();
+        IngredientAdapter ingredientAdapter = new IngredientAdapter(requireContext(), ingredientModelArrayList);
         ingredientRecyclerView.setAdapter(ingredientAdapter);
         ingredientRecyclerView.setNestedScrollingEnabled(false);
         // Pass steps
-        stepModelArrayList = (ArrayList<StepModel>) recipeModel.getSteps();
-        stepAdapter = new StepAdapter(requireContext(), stepModelArrayList);
+        ArrayList<StepModel> stepModelArrayList = (ArrayList<StepModel>) recipeModel.getSteps();
+        StepAdapter stepAdapter = new StepAdapter(requireContext(), stepModelArrayList, isTwoPane);
         stepsRecyclerView.setAdapter(stepAdapter);
         stepsRecyclerView.setNestedScrollingEnabled(false);
     }

@@ -27,10 +27,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.RecipeHolder> 
 
     private ArrayList<StepModel> stepModelArrayList;
     private Context context;
+    private boolean isTwoPane;
 
-    public StepAdapter(Context context, ArrayList<StepModel> stepModelArrayList) {
+    public StepAdapter(Context context, ArrayList<StepModel> stepModelArrayList, boolean isTwoPane) {
         this.context = context;
         this.stepModelArrayList = stepModelArrayList;
+        this.isTwoPane = isTwoPane;
     }
 
     @NonNull
@@ -42,7 +44,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.RecipeHolder> 
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull RecipeHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecipeHolder holder, @SuppressLint("RecyclerView") final int position) {
         final StepModel stepModel = stepModelArrayList.get(position);
         holder.stepNumber.setText(String.valueOf(stepModel.getId() + 1));
         holder.stepShortDesc.setText(stepModel.getShortDescription());
@@ -78,12 +80,17 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.RecipeHolder> 
         FragmentTransaction ft = fm.beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConfig.INTENT_BUNDLE_KEY, stepModelArrayList);
+        bundle.putBoolean(AppConfig.INTENT_TWO_PANE_FLAG, isTwoPane);
         bundle.putInt(AppConfig.INTENT_STEP_INDEX, index);
         StepsFragment fragment = new StepsFragment();
         fragment.setArguments(bundle);
-        ft.replace(R.id.start_content, fragment);
+        if (isTwoPane) {
+            ft.replace(R.id.details_activity_detail_fragment, fragment);
+        } else {
+            ft.replace(R.id.start_content, fragment);
+            ft.addToBackStack(null);
+        }
         ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
-        ft.addToBackStack(null);
         ft.commit();
     }
 }

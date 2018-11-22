@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @BindView(R.id.main_fragment_recipe_recycler)
+    @BindView(R.id.main_activity_recipe_recycler)
     RecyclerView recipeRecyclerView;
     @BindView(R.id.progress_bar)
     ContentLoadingProgressBar progressBar;

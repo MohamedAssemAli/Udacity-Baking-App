@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -53,8 +55,6 @@ public class StepsFragment extends Fragment {
     // Views
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
     @BindView(R.id.steps_fragment_video_player)
     PlayerView playerView;
     @BindView(R.id.steps_fragment_no_video_placeholder)
@@ -138,13 +138,17 @@ public class StepsFragment extends Fragment {
         }
     }
 
-    @Override
+    //    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if (player != null) {
+//            playbackPosition = player.getCurrentPosition();
+//            player.release();
+//        }
+//    }
     public void onPause() {
         super.onPause();
-        if (player != null) {
-            playbackPosition = player.getCurrentPosition();
-            player.release();
-        }
+        releasePlayer();
     }
 
     @Override
@@ -170,10 +174,9 @@ public class StepsFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void populateUi(StepModel stepModel) {
-        toolbarTitle.setText(stepModel.getShortDescription());
         stepShortDescTxt.setText(stepModel.getShortDescription());
         stepsDescTxt.setText(stepModel.getDescription());
-        if (stepModel.getVideoURL().isEmpty()) {
+        if (stepModel.getVideoURL().isEmpty() && stepModel.getThumbnailURL().isEmpty()) {
             noVideoPlaceHolder.setVisibility(View.VISIBLE);
             playerView.setVisibility(View.GONE);
         } else {
@@ -182,7 +185,12 @@ public class StepsFragment extends Fragment {
         }
     }
 
-    private MediaSource buildMediaSource(String url) {
+    private MediaSource buildMediaSource(StepModel stepModel) {
+        String url = "";
+        if (!stepModel.getVideoURL().isEmpty())
+            url = stepModel.getVideoURL();
+        if (!stepModel.getThumbnailURL().isEmpty())
+            url = stepModel.getThumbnailURL();
         return new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory("udacity_baking-app"))
                 .createMediaSource(Uri.parse(url));
@@ -245,6 +253,6 @@ public class StepsFragment extends Fragment {
         playerView.setPlayer(player);
         player.seekTo(playbackPosition);
         player.setPlayWhenReady(playWhenReady);
-        player.prepare(buildMediaSource(stepModel.getVideoURL()), false, false);
+        player.prepare(buildMediaSource(stepModel), false, false);
     }
 }

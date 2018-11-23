@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
     // Views
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
     @BindView(R.id.main_activity_recipe_recycler)
     RecyclerView recipeRecyclerView;
     @BindView(R.id.progress_bar)
@@ -51,9 +50,12 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         init();
         // toolbar
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
-        toolbarTitle.setText(getString(R.string.app_name));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.app_name));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+//        setSupportActionBar(toolbar);
+//        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.app_name));
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<RecipeModel>> call, @NonNull Throwable t) {
-
+                Toast.makeText(MainActivity.this, R.string.detail_error_message, Toast.LENGTH_LONG).show();
             }
         });
     }

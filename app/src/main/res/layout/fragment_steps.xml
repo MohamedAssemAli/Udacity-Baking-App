@@ -10,7 +10,8 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"
+        android:visibility="gone" />
 
     <ScrollView
         android:layout_width="match_parent"

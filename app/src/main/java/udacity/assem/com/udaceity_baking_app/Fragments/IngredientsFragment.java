@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -39,8 +41,6 @@ public class IngredientsFragment extends Fragment {
     // Views
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
     @BindView(R.id.ingredient_fragment_recipe_image)
     ImageView recipeImg;
     @BindView(R.id.ingredient_fragment_recipe_name)
@@ -95,7 +95,6 @@ public class IngredientsFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void populateUi() {
-        toolbarTitle.setText(recipeModel.getName());
         Imageutility.fitImage(requireContext(), recipeImg, recipeModel.getImage(), R.drawable.placeholder, R.drawable.placeholder);
         recipeName.setText(recipeModel.getName());
         recipeServing.setText("Serving : " + String.valueOf(recipeModel.getServings()) + " persons");
